@@ -48,8 +48,70 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    '@nuxrjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+
+  auth: {
+    strategies: {
+      //strategy admin
+      admin:{
+        scheme: 'local',
+        token: {
+          property: 'token', 
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: 'user'
+        },
+        endpoints: {
+          login:{
+            url: '/api/admin/login',
+            method: 'post',
+            propertyName: 'token'
+          },
+          logout: {
+            url: '/api/admin/logout',
+            method: 'post'
+          },
+          user: {
+            url: '/api/admin/user',
+            method: 'get',
+            propertyName: 'user'
+          }
+        },
+      },
+      //strategy customer
+      customer: {
+        scheme: 'local',
+        token:{
+          property: 'token',
+          required: true,
+          type: 'Bearer'
+        },
+        user:{
+          property: 'user'
+        },
+        endpoints: {
+          login:{
+            url: '/api/customer/login',
+            method: 'post',
+            propertyName: 'token'
+          },
+          logout: {
+            url: '/api/customer/logout',
+            method : 'post',
+          }, 
+          user: {
+            url: 'api/customer/user',
+            method: 'get',
+            propertyName: 'user'
+          }
+        }
+      }
+    }
+  },
 
   axios: {
     baseURL: 'http://localhost:8000'
